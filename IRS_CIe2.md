@@ -161,5 +161,47 @@ However, this requires normalization for item length. A more robust measure is t
 
 As the Cosine value approaches 1, the vectors are coincident (highly similar); if it is 0, they are orthogonal (unrelated).
 
+
+
+### 9. Weighted Searches of Boolean Systems
+Weighted searches in Boolean systems attempt to bridge the gap between strict binary logic (AND, OR, NOT) and the nuanced ranking provided by weighted indexing. A major challenge arises because standard Boolean operators are too rigid; [cite_start]"AND" can be overly restrictive, while "OR" can be too broad, and neither naturally supports the ranking of results based on importance [cite: 657-658]. [cite_start]To address this, researchers like Salton, Fox, and Wu demonstrated that strict operator definitions suboptimize retrieval, leading to the adoption of fuzzy set theory [cite: 659-661]. [cite_start]In a fuzzy set approach, an item has a "degree of membership" to a set rather than a simple inclusion or exclusion[cite: 662]. 
+
+[cite_start]In this model, the Boolean operators are redefined mathematically: the "AND" operation is calculated using the minimum value of the weights (e.g., $DEG_{A \cap B} = \min(DEG_A, DEG_B)$), while the "OR" operation uses the maximum value [cite: 663-665]. This allows the system to calculate a similarity measure even when Boolean logic is used. [cite_start]Further refinements, such as the MMM technique by Paice, consider all item weights rather than just the maximum or minimum to provide a more accurate ranking[cite: 670]. These techniques enable users to construct structured Boolean queries while still benefiting from the relevance ranking typical of statistical systems.
+
+### 10. Searching the INTERNET and Hypertext
+[cite_start]Searching the Internet relies on servers that actively visit vast numbers of sites to retrieve and index textual data, a process distinct from searching a local, static database [cite: 677-680]. [cite_start]Prominent early systems like Yahoo, AltaVista, and Lycos utilized these active processes (crawlers) to build indexes; for instance, Lycos indexed home pages, while AltaVista indexed full text at a site [cite: 682-683]. [cite_start]Once the text is retrieved, an index is created that links content to its Universal Resource Locator (URL), allowing users to access the original items[cite: 684]. 
+
+[cite_start]Most of these systems employ ranking algorithms based on statistical word occurrence to present the most relevant hits first [cite: 685-686]. [cite_start]Beyond standard indexing servers, the Internet supports "Intelligent Agents," which allow users to specify an information need that the agent then independently acts upon [cite: 687-688]. [cite_start]These agents possess characteristics like autonomy, allowing them to traverse sites without constant human interaction, and adaptive behavior to adjust to the information they find[cite: 690, 697]. This combination of centralized indexing servers and autonomous agents forms the backbone of information retrieval on the web.
+
+### 11. Hardware Text Search Systems
+[cite_start]Hardware text search systems were developed to overcome the performance bottlenecks of software-based approaches, particularly when handling multiple simultaneous queries or massive databases [cite: 254-255]. [cite_start]By offloading the resource-intensive searching process to specialized hardware, the main computer is freed to handle user interfaces and retrieval tasks[cite: 255]. [cite_start]A key advantage of these systems is scalability; search speed can often be increased simply by adding more hardware devices, and they eliminate the need for large storage overheads associated with creating indexes [cite: 256-258]. 
+
+[cite_start]The typical architecture consists of a **Term Detector**, which identifies search terms in the data stream, and a **Query Resolver**, which handles the logical relationships between terms [cite: 261-264]. [cite_start]Historical examples include General Electric's Rapid Search Machine and the more advanced GESCAN, which used a Text Array Processor (TAP) to match many terms simultaneously[cite: 274, 283]. [cite_start]Another significant development is the Fast Data Finder (FDF), which uses a pipeline of programmable cells on a VLSI chip to perform complex logic, proximity checks, and fuzzy matching as data streams through it [cite: 312-315].
+
+*(See diagram below based on Page 10 of "5th unit merged.pdf")*
+
+```mermaid
+graph LR
+    DB[(Database)] --> HT[Hardware Text Search Unit]
+    subgraph HT [Hardware Text Search Unit]
+        TD[Term Detector] <--> QR[Query Resolver]
+    end
+    HT --> UI[User Interface]
+    UI --> HT
+    style DB fill:#eee,stroke:#333,stroke-width:2px
+    style HT fill:#f9f,stroke:#333,stroke-width:2px
+    style TD fill:#fff,stroke:#333,stroke-width:1px
+    style QR fill:#fff,stroke:#333,stroke-width:1px
+    style UI fill:#fff,stroke:#333,stroke-width:2px
+
+```
+
+### 12. Software Text Search Algorithms
+
+Software text search algorithms are critical for "streaming" techniques where the full text of items is read into memory and processed without a pre-built index . The primary goal is to identify relevant items rapidly and eliminate those that do not satisfy the search criteria. There are four major algorithms used in this domain: the Brute Force approach, the Knuth-Morris-Pratt (KMP) algorithm, the Boyer-Moore algorithm, and the Rabin-Karp algorithm .
+
+The **Brute Force** method is the simplest, comparing the search string against the input text character by character and shifting by one position upon a mismatch, but it can be slow with  comparisons. **Knuth-Morris-Pratt** improves this by preprocessing the search string to avoid re-scanning characters that have already matched. The **Boyer-Moore** algorithm is often the fastest, utilizing a "bad match table" to skip large sections of text upon a mismatch, theoretically requiring at most  comparisons. Many of these algorithms utilize finite state automata (FSA) logic, defining states and transitions to efficiently track partial matches as the text stream is processed .
+
+
 ```
 
